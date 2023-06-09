@@ -1,0 +1,22 @@
+<div class="container d-flex pt-5 justify-content-around">
+    <app-profile [nombre]="user.nombre" [apellido]="user.apellido" [biografia]="user.biografia"
+        [cantidad_seguidores]="user.cantidad_seguidores" [cantidad_seguidos]="user.cantidad_seguidos"
+        [profile]="user.profile"></app-profile>
+    <div class="main flex-column">
+        <div class="search">
+            <div class="single">
+                <form method="post" class="input-group">
+                    <input type="text" class="form-control" name="contenido" placeholder="Que piensas?" [formControl]="contenidoControl" (input)="onContenidoChange($event)">
+                    <span class="input-group-btn">
+                        <button class="btn btn-theme" type="submit" (click)="guardarPost()">Compartir</button>
+                    </span>
+                </form>
+            </div>
+        </div>
+        <div *ngFor="let p of post.data">
+            <app-post [contenido]="p.contenido" [autor]="p.autor" [fecha_publicacion]="p.fecha_publicacion"
+                [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios"></app-post>
+        </div>
+    </div>
+    <div class="friend"></div>
+</div>

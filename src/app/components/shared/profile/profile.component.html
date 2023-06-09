@@ -1,0 +1,28 @@
+<div class="profile">
+    <div class="profile-card-4 text-center"><img width="150" src="/assets/{{profile}}.jpg" class="img img-responsive">
+        <div class="profile-content">
+            <div class="profile-name">{{nombre}} {{apellido}}
+            </div>
+            <div class="profile-description">{{biografia}}</div>
+            <div class="row">
+                <div class="col-xs-4">
+                    <div class="profile-overview">
+                        <p>Seguidores</p>
+                        <h4>{{cantidad_seguidores}}</h4>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="profile-overview">
+                        <p>Seguidos</p>
+                        <h4>{{cantidad_seguidos}}</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center pt-3">
+            <div class="btn btn-outline-dark d-flex align-items-center justify-content-center">
+                <a (click)="verPerfil()">Mi Perfil</a>
+            </div>
+        </div>
+    </div>
+</div>

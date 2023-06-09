@@ -1,0 +1,61 @@
+<div class="post mt-5">
+    <div class="d-flex justify-content-center row">
+        <div class="col-md-12">
+            <div class="d-flex flex-column comment-section">
+                <div class="bg-white p-2">
+                    <div class="d-flex flex-row user-info">
+                        <img class="rounded-circle" src="/assets/{{autor.profile}}.jpg" width="40" height="50">
+                        <div class="d-flex flex-column justify-content-start ml-2 info-post">
+                            <span class="d-block font-weight-bold name">{{autor.nombre}} {{autor.apellido}}</span>
+                            <span class="date text-black-50">{{fecha_publicacion}}</span>
+                        </div>
+                    </div>
+                    <div class="mt-2">
+                        <p class="comment-text">{{contenido}}</p>
+                    </div>
+                </div>
+                <div class="bg-white">
+                    <div class="d-flex flex-row fs-12">
+                        <div class="like p-2 cursor">
+                            <i class="fa-light fa-thumbs-up"></i>
+                            <span class="ml-1">Like {{cantidad_likes}}</span>
+                        </div>
+                        <div class="like p-2 cursor">
+                            <i class="fa-light fa-comment"></i>
+                            <span class="ml-1">Comment</span>
+                        </div>
+                        <div class="like p-2 cursor">
+                            <i class="fa-light fa-share"></i>
+                            <span class="ml-1">Share</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="bg-light p-2">
+                    <div class="d-flex flex-row align-items-start">
+                        <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
+                        <textarea class="form-control ml-1 shadow-none textarea"></textarea>
+                    </div>
+                    <div class="mt-2 text-right">
+                        <button class="btn btn-primary btn-sm shadow-none" type="submit">Comentar</button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="comment mt-4 text-justify float-left" *ngFor="let c of comentarios">
+                <div class="d-flex flex-row user-info">
+                    <img src="/assets/{{c.profile}}.jpg" alt="" class="rounded-circle" width="40" height="50">
+                    <div class="d-flex flex-column justify-content-start ml-2 info-post">
+                        <span class="d-block font-weight-bold name">{{c.autor}}</span>
+                        <span class="date text-black-50">{{c.fecha_comentario}}</span>
+                    </div>
+                </div>
+                <br>
+                <p>{{c.contenido_comentario}}</p>
+            </div>
+
+        </div>
+    </div>
+</div>

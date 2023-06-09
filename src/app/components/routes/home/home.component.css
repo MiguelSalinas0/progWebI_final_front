@@ -1,0 +1,56 @@
+.profile,
+.friend {
+    -webkit-box-shadow: 0px 0px 10px 0px rgba(125, 125, 125, 0.75);
+    -moz-box-shadow: 0px 0px 10px 0px rgba(125, 125, 125, 0.75);
+    box-shadow: 0px 0px 10px 0px rgba(125, 125, 125, 0.75);
+}
+
+.friend {
+    background-color: blue;
+    width: 20%;
+}
+
+.main {
+    width: 50%;
+    height: 50%;
+    justify-content: space-between;
+}
+
+.search {
+    height: 60px;
+    width: 100%;
+}
+
+/* BUSCADOR */
+
+.single {
+    max-width: 650px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.single h2 {
+    font-size: 22px;
+    color: white;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+}
+
+.single .form-control {
+    width: 70%;
+    background: rgba(255, 255, 255, 0.6);
+    border-color: #243c4f;
+    border-radius: 20px 0 0 20px;
+}
+
+.single .form-control:focus {
+    box-shadow: none;
+}
+
+.single .btn {
+    border-radius: 0 20px 20px 0;
+    background: #243c4f;
+    color: #fff;
+}

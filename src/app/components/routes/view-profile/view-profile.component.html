@@ -1,0 +1,60 @@
+<div class="container">
+    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="my-custom-class">Posts</span>
+            </ng-template>
+            <div class="main flex-column">
+                <div *ngFor="let p of allPost">
+                    <app-post [contenido]="p.contenido" [autor]="autor" [fecha_publicacion]="p.fecha_publicacion"
+                        [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios"></app-post>
+                </div>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="my-custom-class">Info Personal</span>
+            </ng-template>
+            <form action="" method="post">
+                <div>
+                    <label for="">Nombre</label>
+                    <input type="text" value="{{user.nombre}}">
+                </div>
+                <div>
+                    <label for="">Apellido</label>
+                    <input type="text" value="{{user.apellido}}">
+                </div>
+                <div>
+                    <label for="">Correo Electronico</label>
+                    <input type="email" value="{{user.correo_electronico}}">
+                </div>
+                <div>
+                    <label for="">Biografia</label>
+                    <input type="text" value="{{user.biografia}}">
+                </div>
+                <div>
+                    <button class="btn btn-success" type="submit">Guardar</button>
+                </div>
+            </form>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="my-custom-class">Seguidores {{user.cantidad_seguidores}}</span>
+            </ng-template>
+            <div *ngFor="let p of seguidores">
+                <app-user [nombre]="p.nombre" [apellido]="p.apellido" [profile]="p.profile"></app-user>
+            </div>
+        </mat-tab>
+
+        <mat-tab>
+            <ng-template mat-tab-label>
+                <span class="my-custom-class">Seguidos {{user.cantidad_seguidos}}</span>
+            </ng-template>
+            <div *ngFor="let p of seguidos">
+                <app-user [nombre]="p.nombre" [apellido]="p.apellido" [profile]="p.profile"></app-user>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>
