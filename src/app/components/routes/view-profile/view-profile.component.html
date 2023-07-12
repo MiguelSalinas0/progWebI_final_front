@@ -7,34 +7,43 @@
             <div class="main flex-column">
                 <div *ngFor="let p of allPost">
                     <app-post [contenido]="p.contenido" [autor]="autor" [fecha_publicacion]="p.fecha_publicacion"
-                        [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios"></app-post>
+                        [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios"
+                        [post_id]="p.post_id"></app-post>
                 </div>
             </div>
         </mat-tab>
 
         <mat-tab>
+            <div class="my-4">
+                <button (click)="habilitarEdit()" class="btn">Editar Información <i
+                        class="fa-solid fa-pen-to-square"></i></button>
+            </div>
             <ng-template mat-tab-label>
                 <span class="my-custom-class">Info Personal</span>
             </ng-template>
-            <form action="" method="post">
+            <form (ngSubmit)="actualizarInfo()" autocomplete="off">
                 <div>
                     <label for="">Nombre</label>
-                    <input type="text" value="{{user.nombre}}">
+                    <input class="mx-5" type="text" value="{{user.nombre}}" [(ngModel)]="user.nombre" name="nombre"
+                        [disabled]="!edit">
                 </div>
                 <div>
                     <label for="">Apellido</label>
-                    <input type="text" value="{{user.apellido}}">
+                    <input class="mx-5" type="text" value="{{user.apellido}}" [(ngModel)]="user.apellido"
+                        name="apellido" [disabled]="!edit">
                 </div>
                 <div>
                     <label for="">Correo Electronico</label>
-                    <input type="email" value="{{user.correo_electronico}}">
+                    <input class="mx-5" type="email" value="{{user.correo_electronico}}"
+                        [(ngModel)]="user.correo_electronico" name="correo_electronico" [disabled]="!edit">
                 </div>
                 <div>
                     <label for="">Biografia</label>
-                    <input type="text" value="{{user.biografia}}">
+                    <input class="mx-5" type="text" value="{{user.biografia}}" [(ngModel)]="user.biografia"
+                        name="biografia" [disabled]="!edit">
                 </div>
-                <div>
-                    <button class="btn btn-success" type="submit">Guardar</button>
+                <div *ngIf="edit == true">
+                    <button class="btn btn-success my-5" type="submit">Actualizar</button>
                 </div>
             </form>
         </mat-tab>

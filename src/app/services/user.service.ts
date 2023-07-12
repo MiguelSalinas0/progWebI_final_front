@@ -35,7 +35,7 @@ export class UserService {
     return this._http.post<Login>(this.baseURL + '/user/login', body)
   }
 
-  update(nombre: string, apellido: string, correo_electronico: string, biografia: string, id: string): Observable<any> {
+  update(nombre: string, apellido: string, correo_electronico: string, biografia: string, id: number): Observable<any> {
     const body = {
       nombre: nombre,
       apellido: apellido,

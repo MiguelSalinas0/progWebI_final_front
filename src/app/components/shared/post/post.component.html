@@ -17,16 +17,10 @@
                 <div class="bg-white">
                     <div class="d-flex flex-row fs-12">
                         <div class="like p-2 cursor">
-                            <i class="fa-light fa-thumbs-up"></i>
-                            <span class="ml-1">Like {{cantidad_likes}}</span>
-                        </div>
-                        <div class="like p-2 cursor">
-                            <i class="fa-light fa-comment"></i>
-                            <span class="ml-1">Comment</span>
-                        </div>
-                        <div class="like p-2 cursor">
-                            <i class="fa-light fa-share"></i>
-                            <span class="ml-1">Share</span>
+                            <button (click)="evalLike()" class="btn">
+                                <i class="fa-solid fa-thumbs-up mx-2"></i>
+                                <span class="ml-1">Like {{cantidad_likes}}</span>
+                            </button>
                         </div>
                     </div>
                 </div>

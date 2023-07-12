@@ -6,7 +6,8 @@
         <div class="search">
             <div class="single">
                 <form method="post" class="input-group">
-                    <input type="text" class="form-control" name="contenido" placeholder="Que piensas?" [formControl]="contenidoControl" (input)="onContenidoChange($event)">
+                    <input type="text" class="form-control" name="contenido" placeholder="Que piensas?"
+                        [formControl]="contenidoControl" (input)="onContenidoChange($event)">
                     <span class="input-group-btn">
                         <button class="btn btn-theme" type="submit" (click)="guardarPost()">Compartir</button>
                     </span>
@@ -15,7 +16,7 @@
         </div>
         <div *ngFor="let p of post.data">
             <app-post [contenido]="p.contenido" [autor]="p.autor" [fecha_publicacion]="p.fecha_publicacion"
-                [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios"></app-post>
+                [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios" [post_id]="p.post_id"></app-post>
         </div>
     </div>
     <div class="friend"></div>

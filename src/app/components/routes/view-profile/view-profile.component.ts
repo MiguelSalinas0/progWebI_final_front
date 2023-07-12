@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { Follow, Seguido } from 'src/app/interfaces/follow';
 import { Autor, Post } from 'src/app/interfaces/postuser';
 import { PostUser } from 'src/app/interfaces/postuser';
 import { User } from 'src/app/interfaces/user';
 import { UserService } from 'src/app/services/user.service';
+
 
 @Component({
   selector: 'app-view-profile',
@@ -13,6 +15,8 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class ViewProfileComponent implements OnInit {
 
+  durationInSeconds = 5;
+
   id: string | null;
   user!: User;
   seguidores: Seguido[] = [];
@@ -20,7 +24,9 @@ export class ViewProfileComponent implements OnInit {
   allPost: Post[] = [];
   autor!: Autor;
 
-  constructor(private _route: ActivatedRoute, private _userService: UserService) {
+  edit: boolean = false;
+
+  constructor(private _route: ActivatedRoute, private _userService: UserService, private _snackBar: MatSnackBar) {
     this.id = this._route.snapshot.paramMap.get('id');
   }
 
@@ -28,6 +34,16 @@ export class ViewProfileComponent implements OnInit {
     this.getOneUser(this.id)
     this.getSeguidoresAndSeguidos(this.id)
     this.getAllPostUser(this.id)
+  }
+
+  habilitarEdit() {
+    this.edit = !this.edit
+  }
+
+  openSnackBar(message: string, action: string) {
+    let config = new MatSnackBarConfig();
+    config.duration = this.durationInSeconds * 1000;
+    this._snackBar.open(message, action, config);
   }
 
   getOneUser(id: string | null) {
@@ -69,6 +85,23 @@ export class ViewProfileComponent implements OnInit {
       },
       error: (err) => {
         console.log(err);
+      },
+      complete: () => {
+        console.log('complete');
+      },
+    })
+  }
+
+  actualizarInfo() {
+    this._userService.update(this.user.nombre, this.user.apellido, this.user.correo_electronico, this.user.biografia, this.user.user_id).subscribe({
+      next: (data) => {
+        this.openSnackBar('Datos actualizados correctamente', 'Aceptar');
+        console.log(data)
+        this.edit = false
+      },
+      error: (err) => {
+        console.log(err);
+        this.openSnackBar('Error: ' + err.message, 'Aceptar');
       },
       complete: () => {
         console.log('complete');
