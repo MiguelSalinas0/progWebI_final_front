@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Autor, Comentario } from 'src/app/interfaces/post';
 import { LikeService } from 'src/app/services/like.service';
+import { PostserviceService } from 'src/app/services/postservice.service';
 
 @Component({
   selector: 'app-post',
@@ -16,9 +18,9 @@ export class PostComponent implements OnInit {
   @Input() cantidad_likes!: number;
   @Input() comentarios!: Comentario[];
 
-  user_id: number | null = null;
+  contenidoControl: FormControl = new FormControl();
 
-  constructor(private _likeService: LikeService) { }
+  constructor(private _likeService: LikeService, private _postService: PostserviceService) { }
 
   ngOnInit(): void { }
 
@@ -36,12 +38,29 @@ export class PostComponent implements OnInit {
           },
           error: (err) => {
             console.log(err);
-          },
-          complete: () => {
-            console.log('complete');
-          },
+          }
         });
       }
+    }
+  }
+
+  onContenidoChange(event: Event) {
+    const target = event.target as HTMLInputElement;
+    this.contenidoControl.setValue(target.value);
+  }
+
+  comentar() {
+    const usuarioString: string | null = localStorage.getItem('usuario');
+    if (usuarioString !== null) {
+      this._postService.addComment(usuarioString, this.post_id.toString(), this.contenidoControl.value).subscribe({
+        next: (data) => {
+          console.log(data)
+          window.location.reload()
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
     }
   }
 

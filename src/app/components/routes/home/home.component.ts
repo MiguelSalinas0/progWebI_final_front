@@ -15,7 +15,7 @@ export class HomeComponent implements OnInit {
 
   post!: Post;
   user!: User;
-  user_id: number | null = null;
+  user_id!: string | null;
   contenidoControl: FormControl = new FormControl();
 
   constructor(private _postService: PostserviceService, private _userService: UserService) { }
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     const usuarioString: string | null = localStorage.getItem('usuario');
     if (usuarioString !== null) {
-      this.user_id = parseInt(usuarioString);
+      this.user_id = usuarioString;
     }
     this.getAllPost()
     this.getOneUser()
@@ -45,7 +45,7 @@ export class HomeComponent implements OnInit {
 
   getOneUser() {
     if (this.user_id !== null) {
-      this._userService.getOneUser(this.user_id.toString()).subscribe({
+      this._userService.getOneUser(this.user_id).subscribe({
         next: (data: User) => {
           this.user = data
         },
