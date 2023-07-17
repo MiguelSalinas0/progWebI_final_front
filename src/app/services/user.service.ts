@@ -5,6 +5,7 @@ import { User } from '../interfaces/user';
 import { Login } from '../interfaces/login';
 import { Follow } from '../interfaces/follow';
 import { PostUser } from '../interfaces/postuser';
+import { Registro } from '../interfaces/registro';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +44,17 @@ export class UserService {
       biografia: biografia
     }
     return this._http.put<any>(this.baseURL + '/user/update/ ' + id, body)
+  }
+
+  registrarse(nombre: string, apellido: string, correo_electronico: string, contrasena: string, biografia: string): Observable<Registro> {
+    const body = {
+      nombre: nombre,
+      apellido: apellido,
+      correo_electronico: correo_electronico,
+      contrasena: contrasena,
+      biografia: biografia
+    }
+    return this._http.post<Registro>(this.baseURL + '/user/register ', body)
   }
 
 }

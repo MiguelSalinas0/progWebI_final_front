@@ -45,4 +45,8 @@ export class PostserviceService {
     return this._http.post(this.baseURL + '/post/addcomment', body)
   }
 
+  deletePost(post_id: string): Observable<any> {
+    return this._http.delete(this.baseURL + '/post/remove/' + post_id)
+  }
+
 }

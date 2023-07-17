@@ -14,7 +14,7 @@ export class FooterComponent {
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
-      if (this.router.url === '/login' || this.router.url === '/') {
+      if (this.router.url === '/login' || this.router.url === '/' || this.router.url === '/registro') {
         this.mostrarFooter = false;
       } else {
         this.mostrarFooter = true;

@@ -14,7 +14,7 @@ export class HeaderComponent {
 
   ngOnInit() {
     this.router.events.subscribe((event) => {
-      if (this.router.url === '/login' || this.router.url === '/') {
+      if (this.router.url === '/login' || this.router.url === '/' || this.router.url === '/registro') {
         this.mostrarHeader = false;
       } else {
         this.mostrarHeader = true;
