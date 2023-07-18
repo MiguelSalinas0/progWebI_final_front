@@ -9,9 +9,35 @@
                             <span class="d-block font-weight-bold name">{{autor.nombre}} {{autor.apellido}}</span>
                             <span class="date text-black-50">{{fecha_publicacion}}</span>
                         </div>
+                        <div *ngIf="bandera == true">
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu">
+                                <mat-icon>more_vert</mat-icon>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button mat-menu-item (click)="edit = !edit">
+                                    <mat-icon>edit</mat-icon>
+                                    <span>Editar Post</span>
+                                </button>
+                                <button mat-menu-item (click)="eliminar(post_id)">
+                                    <mat-icon>delete</mat-icon>
+                                    <span>Eliminar Post</span>
+                                </button>
+                            </mat-menu>
+                        </div>
                     </div>
                     <div class="mt-2">
-                        <p class="comment-text">{{contenido}}</p>
+                        <div *ngIf=" edit == false">
+                            <p class="comment-text">{{contenido}}</p>
+                        </div>
+                        <div *ngIf=" edit == true">
+                            <form (ngSubmit)="editarPost(post_id)">
+                                <textarea name="" id="" cols="90" rows="5" [(ngModel)]="contenido" [ngModelOptions]="{standalone: true}"></textarea>
+                                <br>
+                                <button type="submit" class="btn btn-success">Guardar</button>
+                                <button class="btn btn-danger mx-3" (click)="edit = !edit">Cancelar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="bg-white">
@@ -29,10 +55,12 @@
                 <div class="bg-light p-2">
                     <div class="d-flex flex-row align-items-start">
                         <img class="rounded-circle" src="https://i.imgur.com/RpzrMR2.jpg" width="40">
-                        <textarea (input)="onContenidoChange($event)" class="form-control ml-1 shadow-none textarea"></textarea>
+                        <textarea (input)="onContenidoChange($event)"
+                            class="form-control ml-1 shadow-none textarea"></textarea>
                     </div>
                     <div class="mt-2 text-right">
-                        <button (click)="comentar()" class="btn btn-primary btn-sm shadow-none" type="submit">Comentar</button>
+                        <button (click)="comentar()" class="btn btn-primary btn-sm shadow-none"
+                            type="submit">Comentar</button>
                     </div>
                 </div>
 

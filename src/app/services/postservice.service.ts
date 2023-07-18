@@ -24,15 +24,16 @@ export class PostserviceService {
     return this._http.post(this.baseURL + '/post/add', body)
   }
 
-  updatePost(user_id: string | null, contenido: string): Observable<any> {
+  updatePost(post_id: string | null, contenido: string): Observable<any> {
     const body = {
-      user_id: user_id,
+      post_id: post_id,
       contenido: contenido
     }
+    console.log(body)
     return this._http.put<any>(this.baseURL + '/post/update', body)
   }
 
-  deltePost(post_id: string): Observable<any> {
+  deletePost(post_id: string): Observable<any> {
     return this._http.delete<any>(this.baseURL + '/post/remove/' + post_id)
   }
 
@@ -43,10 +44,6 @@ export class PostserviceService {
       contenido: contenido
     }
     return this._http.post(this.baseURL + '/post/addcomment', body)
-  }
-
-  deletePost(post_id: string): Observable<any> {
-    return this._http.delete(this.baseURL + '/post/remove/' + post_id)
   }
 
 }

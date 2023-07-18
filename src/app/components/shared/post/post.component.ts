@@ -17,6 +17,9 @@ export class PostComponent implements OnInit {
   @Input() fecha_publicacion!: Date;
   @Input() cantidad_likes!: number;
   @Input() comentarios!: Comentario[];
+  @Input() bandera!: boolean;
+
+  edit: boolean = false;
 
   contenidoControl: FormControl = new FormControl();
 
@@ -62,6 +65,30 @@ export class PostComponent implements OnInit {
         }
       })
     }
+  }
+
+  editarPost(post_id: number) {
+    this._postService.updatePost(post_id.toString(), this.contenido).subscribe({
+      next: (data) => {
+        console.log(data)
+        window.location.reload()
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  eliminar(post_id: number) {
+    this._postService.deletePost(post_id.toString()).subscribe({
+      next: (data) => {
+        console.log(data)
+        window.location.reload()
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
 

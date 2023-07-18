@@ -18,6 +18,8 @@ export class ViewProfileComponent implements OnInit {
   durationInSeconds = 5;
 
   id: string | null;
+  user_id!: string;
+
   user!: User;
   seguidores: Seguido[] = [];
   seguidos: Seguido[] = [];
@@ -26,11 +28,20 @@ export class ViewProfileComponent implements OnInit {
 
   edit: boolean = false;
 
+  bandera: boolean = false;
+
   constructor(private _route: ActivatedRoute, private _userService: UserService, private _snackBar: MatSnackBar) {
     this.id = this._route.snapshot.paramMap.get('id');
   }
 
   ngOnInit(): void {
+    const usuarioString: string | null = localStorage.getItem('usuario');
+    if (usuarioString !== null) {
+      this.user_id = usuarioString;
+    }
+    if (this.id == this.user_id){
+      this.bandera = true
+    }
     this.getOneUser(this.id)
     this.getSeguidoresAndSeguidos(this.id)
     this.getAllPostUser(this.id)
