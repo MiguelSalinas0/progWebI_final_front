@@ -19,5 +19,11 @@
                 [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios" [post_id]="p.post_id"></app-post>
         </div>
     </div>
-    <div class="friend"></div>
+    <div class="friend">
+        <div *ngFor="let p of usuarios">
+            <a [routerLink]="['/profile', p.user_id]">
+                <app-user [user_id]="p.user_id" [nombre]="p.nombre" [apellido]="p.apellido" [profile]="p.profile"></app-user>
+            </a>
+        </div>
+    </div>
 </div>

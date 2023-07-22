@@ -7,6 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class UserComponent implements OnInit {
 
+  @Input() user_id!: number;
   @Input() profile!: string;
   @Input() nombre!: string;
   @Input() apellido!: string;

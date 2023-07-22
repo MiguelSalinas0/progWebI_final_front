@@ -6,8 +6,13 @@
 }
 
 .friend {
-    background-color: blue;
     width: 20%;
+    height: 70%;
+}
+
+.friend a {
+    text-decoration: none;
+    color: #000000;
 }
 
 .main {

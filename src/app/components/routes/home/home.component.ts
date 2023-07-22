@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   user_id!: string | null;
   contenidoControl: FormControl = new FormControl();
 
+  usuarios!: any;
+
   constructor(private _postService: PostserviceService, private _userService: UserService) { }
 
   ngOnInit(): void {
@@ -27,6 +29,21 @@ export class HomeComponent implements OnInit {
     }
     this.getAllPost()
     this.getOneUser()
+    this.getAllOtherU()
+    console.log(this.usuarios)
+  }
+
+  getAllOtherU() {
+    if (this.user_id !== null) {
+      this._userService.getAllOtherUser(this.user_id).subscribe({
+        next: (data: any) => {
+          this.usuarios = data.data
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
+    }
   }
 
   getAllPost() {

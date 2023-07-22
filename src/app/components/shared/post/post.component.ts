@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Autor, Comentario } from 'src/app/interfaces/post';
+import { User } from 'src/app/interfaces/user';
 import { LikeService } from 'src/app/services/like.service';
 import { PostserviceService } from 'src/app/services/postservice.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-post',
@@ -23,9 +25,13 @@ export class PostComponent implements OnInit {
 
   contenidoControl: FormControl = new FormControl();
 
-  constructor(private _likeService: LikeService, private _postService: PostserviceService) { }
+  user!: User;
 
-  ngOnInit(): void { }
+  constructor(private _likeService: LikeService, private _postService: PostserviceService, private _userService: UserService) { }
+
+  ngOnInit(): void {
+    this.getUser()
+  }
 
   evalLike(): void {
     const usuarioString: string | null = localStorage.getItem('usuario');
@@ -44,6 +50,20 @@ export class PostComponent implements OnInit {
           }
         });
       }
+    }
+  }
+
+  getUser() {
+    const usuarioString: string | null = localStorage.getItem('usuario');
+    if (usuarioString !== null) {
+      this._userService.getOneUser(usuarioString).subscribe({
+        next: (data: User) => {
+          this.user = data
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
     }
   }
 
@@ -83,7 +103,6 @@ export class PostComponent implements OnInit {
     this._postService.deletePost(post_id.toString()).subscribe({
       next: (data) => {
         console.log(data)
-        window.location.reload()
       },
       error: (err) => {
         console.log(err);

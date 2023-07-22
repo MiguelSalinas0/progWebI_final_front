@@ -29,11 +29,11 @@ export class PostserviceService {
       post_id: post_id,
       contenido: contenido
     }
-    console.log(body)
     return this._http.put<any>(this.baseURL + '/post/update', body)
   }
 
   deletePost(post_id: string): Observable<any> {
+    console.log(post_id)
     return this._http.delete<any>(this.baseURL + '/post/remove/' + post_id)
   }
 
