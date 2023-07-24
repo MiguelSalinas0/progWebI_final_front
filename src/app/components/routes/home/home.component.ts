@@ -85,6 +85,7 @@ export class HomeComponent implements OnInit {
     this._postService.addPost(this.user_id, this.contenidoControl.value).subscribe({
       next: (data) => {
         console.log(data)
+        window.location.reload()
       },
       error: (err) => {
         console.log(err);

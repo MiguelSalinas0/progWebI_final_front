@@ -20,6 +20,9 @@
         </div>
     </div>
     <div class="friend">
+        <div class="d-flex justify-content-center pt-4 pb-3">
+            <h4><strong>Otros Usuarios</strong></h4>
+        </div>
         <div *ngFor="let p of usuarios">
             <a [routerLink]="['/profile', p.user_id]">
                 <app-user [user_id]="p.user_id" [nombre]="p.nombre" [apellido]="p.apellido" [profile]="p.profile"></app-user>

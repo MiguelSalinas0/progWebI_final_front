@@ -5,6 +5,7 @@ import { Follow, Seguido } from 'src/app/interfaces/follow';
 import { Autor, Post } from 'src/app/interfaces/postuser';
 import { PostUser } from 'src/app/interfaces/postuser';
 import { User } from 'src/app/interfaces/user';
+import { FollowService } from 'src/app/services/follow.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -29,8 +30,9 @@ export class ViewProfileComponent implements OnInit {
   edit: boolean = false;
 
   bandera: boolean = false;
+  result!: boolean;
 
-  constructor(private _route: ActivatedRoute, private _userService: UserService, private _snackBar: MatSnackBar) {
+  constructor(private _route: ActivatedRoute, private _userService: UserService, private _followService: FollowService, private _snackBar: MatSnackBar) {
     this.id = this._route.snapshot.paramMap.get('id');
   }
 
@@ -39,12 +41,49 @@ export class ViewProfileComponent implements OnInit {
     if (usuarioString !== null) {
       this.user_id = usuarioString;
     }
-    if (this.id == this.user_id){
+    if (this.id == this.user_id) {
       this.bandera = true
     }
     this.getOneUser(this.id)
     this.getSeguidoresAndSeguidos(this.id)
     this.getAllPostUser(this.id)
+    this.evalFoll()
+  }
+
+  follow(id: string, user_id: string) {
+    this._followService.addFollow(user_id, id).subscribe({
+      next: (data) => {
+        this.result = data.result
+        this.evalFoll()
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  removefollow(id: string, user_id: string) {
+    this._followService.removeFollow(user_id, id).subscribe({
+      next: (data) => {
+        this.result = data.result
+        this.evalFoll()
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+
+  evalFoll() {
+    this._followService.evalFollow(this.user_id, this.id!).subscribe({
+      next: (data) => {
+        this.result = data.result
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   habilitarEdit() {
@@ -107,7 +146,6 @@ export class ViewProfileComponent implements OnInit {
     this._userService.update(this.user.nombre, this.user.apellido, this.user.correo_electronico, this.user.biografia, this.user.user_id).subscribe({
       next: (data) => {
         this.openSnackBar('Datos actualizados correctamente', 'Aceptar');
-        console.log(data)
         this.edit = false
       },
       error: (err) => {

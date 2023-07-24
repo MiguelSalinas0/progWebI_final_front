@@ -11,7 +11,7 @@ export class FollowService {
 
   constructor(private _http: HttpClient) { }
 
-  evalFollow(user_id: number, followed_user_id: number): Observable<any> {
+  evalFollow(user_id: string, followed_user_id: string): Observable<any> {
     const body = {
       user_id: user_id,
       followed_user_id: followed_user_id
@@ -19,7 +19,7 @@ export class FollowService {
     return this._http.post<any>(this.baseURL + '/follow/eval', body)
   }
 
-  addFollow(user_id: number, followed_user_id: number): Observable<any> {
+  addFollow(user_id: string, followed_user_id: string): Observable<any> {
     const body = {
       user_id: user_id,
       followed_user_id: followed_user_id
@@ -27,12 +27,8 @@ export class FollowService {
     return this._http.post<any>(this.baseURL + '/follow/add', body)
   }
 
-  removeFollow(user_id: number, followed_user_id: number): Observable<any> {
-    const body = {
-      user_id: user_id,
-      followed_user_id: followed_user_id
-    }
-    return this._http.delete<any>(this.baseURL + '/follow/remove', body)
+  removeFollow(user_id: string, followed_user_id: string): Observable<any> {
+    return this._http.delete<any>(this.baseURL + '/follow/remove/' + user_id + '/' + followed_user_id)
   }
 }
 

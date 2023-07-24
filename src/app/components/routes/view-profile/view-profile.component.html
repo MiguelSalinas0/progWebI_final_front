@@ -1,4 +1,10 @@
 <div class="container">
+    <div *ngIf="result == false && id != user_id" class="my-5">
+        <button class="btn btn-outline-success" (click)="follow(id!, user_id!)">Seguir</button>
+    </div>
+    <div *ngIf="result == true && id != user_id" class="my-5">
+        <button class="btn btn-outline-danger" (click)="removefollow(id!, user_id!)">Dejar de seguir</button>
+    </div>
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
         <mat-tab>
             <ng-template mat-tab-label>

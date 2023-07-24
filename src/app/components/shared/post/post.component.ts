@@ -103,6 +103,7 @@ export class PostComponent implements OnInit {
     this._postService.deletePost(post_id.toString()).subscribe({
       next: (data) => {
         console.log(data)
+        window.location.reload()
       },
       error: (err) => {
         console.log(err);

@@ -5,7 +5,7 @@
                 <div class="bg-white p-2">
                     <div class="d-flex flex-row user-info">
                         <img class="rounded-circle" src="/assets/{{autor.profile}}.jpg" width="40" height="50">
-                        <div class="d-flex flex-column justify-content-start ml-2 info-post">
+                        <div class="d-flex flex-column justify-content-start ml-2 info-post pt-4">
                             <span class="d-block font-weight-bold name">{{autor.nombre}} {{autor.apellido}}</span>
                             <span class="date text-black-50">{{fecha_publicacion}}</span>
                         </div>
@@ -56,9 +56,9 @@
                     <div class="d-flex flex-row align-items-start">
                         <img class="rounded-circle" src="assets/{{user.profile}}.jpg" width="30">
                         <textarea (input)="onContenidoChange($event)"
-                            class="form-control ml-1 shadow-none textarea"></textarea>
+                            class="form-control shadow-none textarea mx-4"></textarea>
                     </div>
-                    <div class="mt-2 text-right">
+                    <div class="mt-4 text-right">
                         <button (click)="comentar()" class="btn btn-primary btn-sm shadow-none"
                             type="submit">Comentar</button>
                     </div>
