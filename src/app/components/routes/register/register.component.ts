@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Registro } from 'src/app/interfaces/registro';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class RegisterComponent {
 
-  constructor(private fb: FormBuilder, private _userService: UserService, private router: Router) { }
+  constructor(private fb: FormBuilder, private _userService: UserService, private router: Router, private _authService: AuthService) { }
 
   ngOnInit(): void { }
 
@@ -37,7 +38,7 @@ export class RegisterComponent {
     this._userService.registrarse(nombre.value, apellido.value, correo_electronico.value, contrasena.value, biografia.value).subscribe({
       next: (data: Registro) => {
         if (data.success == true) {
-          localStorage.setItem('usuario', JSON.stringify(data.data.user_id))
+          this._authService.login(data.data.user_id)
           this.router.navigate(['/inicio'])
         }
       },

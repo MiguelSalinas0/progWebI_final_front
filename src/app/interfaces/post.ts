@@ -12,6 +12,7 @@ export interface Datum {
     cantidad_comentarios: number;
     comentarios:          Comentario[];
     autor:                Autor;
+    likedBy:              number[]
 }
 
 export interface Autor {

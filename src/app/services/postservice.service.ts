@@ -46,4 +46,9 @@ export class PostserviceService {
     return this._http.post(this.baseURL + '/post/addcomment', body)
   }
 
+
+  getComments(post_id: string) {
+    return this._http.get(this.baseURL + '/post/getcomment/' + post_id)
+  }
+
 }

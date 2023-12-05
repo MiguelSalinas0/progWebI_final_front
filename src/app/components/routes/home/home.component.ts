@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Post } from 'src/app/interfaces/post';
-import { User } from 'src/app/interfaces/user';
+import { OUsers, User, Users } from 'src/app/interfaces/user';
 import { PostserviceService } from 'src/app/services/postservice.service';
 import { UserService } from 'src/app/services/user.service';
 import { FormControl } from '@angular/forms';
@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   user_id!: string | null;
   contenidoControl: FormControl = new FormControl();
 
-  usuarios!: any;
+  usuarios!: OUsers[];
 
   constructor(private _postService: PostserviceService, private _userService: UserService) { }
 
@@ -30,14 +30,15 @@ export class HomeComponent implements OnInit {
     this.getAllPost()
     this.getOneUser()
     this.getAllOtherU()
-    console.log(this.usuarios)
   }
 
   getAllOtherU() {
     if (this.user_id !== null) {
       this._userService.getAllOtherUser(this.user_id).subscribe({
-        next: (data: any) => {
-          this.usuarios = data.data
+        next: (data: Users) => {
+          if (data.success) {
+            this.usuarios = data.data
+          }
         },
         error: (err) => {
           console.log(err);

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,7 +18,7 @@ export class ProfileComponent implements OnInit {
 
   user_id!: number;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private _authService: AuthService) { }
 
   ngOnInit(): void {
     const usuarioString: string | null = localStorage.getItem('usuario');
@@ -28,6 +29,10 @@ export class ProfileComponent implements OnInit {
 
   verPerfil() {
     this.router.navigate(['/profile', this.user_id])
+  }
+
+  cerrarSesion() {
+    this._authService.logout()
   }
 
 }

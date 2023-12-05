@@ -20,17 +20,23 @@ export class PostComponent implements OnInit {
   @Input() cantidad_likes!: number;
   @Input() comentarios!: Comentario[];
   @Input() bandera!: boolean;
+  @Input() likedBy!: number[];
 
   edit: boolean = false;
+  like: boolean = false;
 
   contenidoControl: FormControl = new FormControl();
 
   user!: User;
 
+  cant_comentarios: number = 0;
+
   constructor(private _likeService: LikeService, private _postService: PostserviceService, private _userService: UserService) { }
 
   ngOnInit(): void {
     this.getUser()
+    this.like = this.userLikedPost()
+    this.cant_comentarios = this.comentarios.length;
   }
 
   evalLike(): void {
@@ -42,8 +48,14 @@ export class PostComponent implements OnInit {
         const post_id = this.post_id;
         this._likeService.evalLike(user_id.toString(), post_id.toString()).subscribe({
           next: (data) => {
-            console.log(data)
-            window.location.reload()
+            if (data.message == 'Like agregado') {
+              this.like = true
+              this.cantidad_likes += 1
+            }
+            if (data.message == 'Like removido') {
+              this.like = false
+              this.cantidad_likes -= 1
+            }
           },
           error: (err) => {
             console.log(err);
@@ -78,7 +90,7 @@ export class PostComponent implements OnInit {
       this._postService.addComment(usuarioString, this.post_id.toString(), this.contenidoControl.value).subscribe({
         next: (data) => {
           console.log(data)
-          window.location.reload()
+          this.getCommentsAc()
         },
         error: (err) => {
           console.log(err);
@@ -104,6 +116,31 @@ export class PostComponent implements OnInit {
       next: (data) => {
         console.log(data)
         window.location.reload()
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
+  }
+
+  userLikedPost(): boolean {
+    const usuarioString: string | null = localStorage.getItem('usuario');
+    if (usuarioString !== null) {
+      const usuarioId: number = parseInt(usuarioString, 10);
+      if (!isNaN(usuarioId)) {
+        return this.likedBy.includes(usuarioId);
+      }
+    }
+    return false;
+  }
+
+  getCommentsAc() {
+    this._postService.getComments(this.post_id.toString()).subscribe({
+      next: (data: any) => {
+        if (data.success == true) {
+          this.comentarios = data.data
+          this.cant_comentarios = this.comentarios.length
+        }
       },
       error: (err) => {
         console.log(err);

@@ -1,17 +1,18 @@
-<div class="post mt-5">
+<div class="post my-5">
     <div class="d-flex justify-content-center row">
         <div class="col-md-12">
             <div class="d-flex flex-column comment-section">
                 <div class="bg-white p-2">
                     <div class="d-flex flex-row user-info">
-                        <img class="rounded-circle" src="/assets/{{autor.profile}}.jpg" width="40" height="50">
-                        <div class="d-flex flex-column justify-content-start ml-2 info-post pt-4">
-                            <span class="d-block font-weight-bold name">{{autor.nombre}} {{autor.apellido}}</span>
-                            <span class="date text-black-50">{{fecha_publicacion}}</span>
+                        <div class="encabezado d-flex align-items-center">
+                            <img class="rounded-circle" width="40" height="50" *ngIf="autor.profile" [src]="autor.profile" alt="Imagen de perfil">
+                            <div class="d-flex flex-column justify-content-start ml-2 info-post">
+                                <span class="d-block font-weight-bold name">{{autor.nombre}} {{autor.apellido}}</span>
+                                <span class="date text-black-50">{{fecha_publicacion}}</span>
+                            </div>
                         </div>
                         <div *ngIf="bandera == true">
-                            <button mat-icon-button [matMenuTriggerFor]="menu"
-                                aria-label="Example icon-button with a menu">
+                            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
                                 <mat-icon>more_vert</mat-icon>
                             </button>
                             <mat-menu #menu="matMenu">
@@ -28,11 +29,12 @@
                     </div>
                     <div class="mt-2">
                         <div *ngIf=" edit == false">
-                            <p class="comment-text">{{contenido}}</p>
+                            <p class="comment-text pt-3">{{contenido}}</p>
                         </div>
                         <div *ngIf=" edit == true">
                             <form (ngSubmit)="editarPost(post_id)">
-                                <textarea name="" id="" cols="90" rows="5" [(ngModel)]="contenido" [ngModelOptions]="{standalone: true}"></textarea>
+                                <textarea name="" id="" cols="90" rows="5" [(ngModel)]="contenido"
+                                    [ngModelOptions]="{standalone: true}"></textarea>
                                 <br>
                                 <button type="submit" class="btn btn-success">Guardar</button>
                                 <button class="btn btn-danger mx-3" (click)="edit = !edit">Cancelar</button>
@@ -44,40 +46,52 @@
                     <div class="d-flex flex-row fs-12">
                         <div class="like p-2 cursor">
                             <button (click)="evalLike()" class="btn">
-                                <i class="fa-solid fa-thumbs-up mx-2"></i>
-                                <span class="ml-1">Like {{cantidad_likes}}</span>
+                                <i [ngClass]="{
+                                    'fa-regular': !like,
+                                    'fa-solid': like
+                                  }" class="fa-heart"></i>
+                                <span class="mx-2">{{cantidad_likes}}</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-
                 <div class="bg-light p-2">
                     <div class="d-flex flex-row align-items-start">
-                        <img class="rounded-circle" src="assets/{{user.profile}}.jpg" width="30">
-                        <textarea (input)="onContenidoChange($event)"
-                            class="form-control shadow-none textarea mx-4"></textarea>
-                    </div>
-                    <div class="mt-4 text-right">
-                        <button (click)="comentar()" class="btn btn-primary btn-sm shadow-none"
-                            type="submit">Comentar</button>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="comment mt-4 text-justify float-left" *ngFor="let c of comentarios">
-                <div class="d-flex flex-row user-info">
-                    <img src="/assets/{{c.profile}}.jpg" alt="" class="rounded-circle" width="40" height="50">
-                    <div class="d-flex flex-column justify-content-start ml-2 info-post">
-                        <span class="d-block font-weight-bold name">{{c.autor}}</span>
-                        <span class="date text-black-50">{{c.fecha_comentario}}</span>
+                        <img class="rounded-circle" width="50" height="50" *ngIf="user.profile" [src]="user.profile" alt="Imagen de perfil">
+                        <div class="d-flex align-items-center col-11">
+                            <textarea (input)="onContenidoChange($event)" class="form-control shadow-none textarea mx-2"></textarea>
+                            <svg style="cursor: pointer;" (click)="comentar()" xmlns="http://www.w3.org/2000/svg" height="30" width="30"
+                                viewBox="0 0 512 512">
+                                <path
+                                    d="M16.1 260.2c-22.6 12.9-20.5 47.3 3.6 57.3L160 376V479.3c0 18.1 14.6 32.7 32.7 32.7c9.7 0 18.9-4.3 25.1-11.8l62-74.3 123.9 51.6c18.9 7.9 40.8-4.5 43.9-24.7l64-416c1.9-12.1-3.4-24.3-13.5-31.2s-23.3-7.5-34-1.4l-448 256zm52.1 25.5L409.7 90.6 190.1 336l1.2 1L68.2 285.7zM403.3 425.4L236.7 355.9 450.8 116.6 403.3 425.4z" />
+                            </svg>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <p>{{c.contenido_comentario}}</p>
             </div>
+
+            <mat-expansion-panel hideToggle class="bg-light">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Comentarios {{cant_comentarios}}
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="comment mt-4 text-justify float-left" *ngFor="let c of comentarios">
+                    <div class="d-flex flex-row user-comment-info align-items-center">
+                        <img class="rounded-circle" width="40" height="50" *ngIf="c.profile" [src]="c.profile"
+                            alt="Imagen de perfil">
+                        <div class="d-flex flex-column justify-content-start ml-2 info-post">
+                            <span class="d-block font-weight-bold name">{{c.autor}}</span>
+                            <span class="date text-black-50">{{c.fecha_comentario}}</span>
+                        </div>
+                    </div>
+                    <br>
+                    <p class="text-c">{{c.contenido_comentario}}</p>
+                </div>
+            </mat-expansion-panel>
 
         </div>
     </div>
+    
 </div>

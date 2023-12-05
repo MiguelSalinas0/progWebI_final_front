@@ -16,6 +16,7 @@ export interface Post {
     fecha_publicacion: Date;
     cantidad_likes:    number;
     comentarios:       Comentario[];
+    likedBy:           number[];
 }
 
 export interface Comentario {

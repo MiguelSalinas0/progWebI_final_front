@@ -1,11 +1,25 @@
 <div class="container">
-    <div *ngIf="result == false && id != user_id" class="my-5">
+    <div class="contenedor">
+        <div class="portada">
+            <img src="assets/portada.png" alt="portada">
+        </div>
+    </div>
+    <div class="rotulo">
+        <div class="contenedor-perfil">
+            <img *ngIf="user.profile" [src]="user.profile" alt="Imagen de perfil">
+        </div>
+        <p class="mx-3">{{nombre}} {{apellido}}</p>
+    </div>
+</div>
+
+<div class="container info">
+    <div *ngIf="result == false && id != user_id" class="mt-4">
         <button class="btn btn-outline-success" (click)="follow(id!, user_id!)">Seguir</button>
     </div>
-    <div *ngIf="result == true && id != user_id" class="my-5">
+    <div *ngIf="result == true && id != user_id" class="mt-4">
         <button class="btn btn-outline-danger" (click)="removefollow(id!, user_id!)">Dejar de seguir</button>
     </div>
-    <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+    <mat-tab-group animationDuration="0ms" mat-stretch-tabs="true" mat-align-tabs="start" class="mt-4">
         <mat-tab>
             <ng-template mat-tab-label>
                 <span class="my-custom-class">Posts</span>
@@ -13,8 +27,8 @@
             <div class="main flex-column">
                 <div *ngFor="let p of allPost">
                     <app-post [contenido]="p.contenido" [autor]="autor" [fecha_publicacion]="p.fecha_publicacion"
-                        [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios"
-                        [post_id]="p.post_id" [bandera]="bandera"></app-post>
+                        [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios" [post_id]="p.post_id"
+                        [bandera]="bandera" [likedBy]="p.likedBy"></app-post>
                 </div>
             </div>
         </mat-tab>
@@ -29,23 +43,22 @@
             <form class="my-5" (ngSubmit)="actualizarInfo()" autocomplete="off">
                 <div>
                     <label for="">Nombre</label>
-                    <input class="mx-5" type="text" value="{{user.nombre}}" [(ngModel)]="user.nombre" name="nombre"
-                        [disabled]="!edit">
+                    <input class="mx-5" type="text" value="{{user.nombre}}" [(ngModel)]="user.nombre" name="nombre" [disabled]="!edit">
                 </div>
                 <div>
                     <label for="">Apellido</label>
-                    <input class="mx-5" type="text" value="{{user.apellido}}" [(ngModel)]="user.apellido"
-                        name="apellido" [disabled]="!edit">
+                    <input class="mx-5" type="text" value="{{user.apellido}}" [(ngModel)]="user.apellido" name="apellido" [disabled]="!edit">
                 </div>
                 <div>
                     <label for="">Correo Electronico</label>
-                    <input class="mx-5" type="email" value="{{user.correo_electronico}}"
-                        [(ngModel)]="user.correo_electronico" name="correo_electronico" [disabled]="!edit">
+                    <input class="mx-5" type="email" value="{{user.correo_electronico}}" [(ngModel)]="user.correo_electronico" name="correo_electronico" [disabled]="!edit">
                 </div>
                 <div>
                     <label for="">Biografia</label>
-                    <textarea name="" id="" cols="50" rows="3" class="mx-5" type="text" value="{{user.biografia}}" [(ngModel)]="user.biografia"
-                    name="biografia" [disabled]="!edit"></textarea>
+                    <textarea name="" id="" cols="50" rows="3" class="mx-5" type="text" value="{{user.biografia}}" [(ngModel)]="user.biografia" name="biografia" [disabled]="!edit"></textarea>
+                </div>
+                <div *ngIf="bandera">
+                    <input type="file" (change)="onFileSelected($event)">
                 </div>
                 <div *ngIf="edit == true">
                     <button class="btn btn-success my-5" type="submit">Actualizar</button>
@@ -57,7 +70,7 @@
             <ng-template mat-tab-label>
                 <span class="my-custom-class">Seguidores {{user.cantidad_seguidores}}</span>
             </ng-template>
-            <div *ngFor="let p of seguidores">
+            <div class="follow" *ngFor="let p of seguidores">
                 <app-user [user_id]="p.user_id" [nombre]="p.nombre" [apellido]="p.apellido" [profile]="p.profile"></app-user>
             </div>
         </mat-tab>
@@ -66,7 +79,7 @@
             <ng-template mat-tab-label>
                 <span class="my-custom-class">Seguidos {{user.cantidad_seguidos}}</span>
             </ng-template>
-            <div *ngFor="let p of seguidos">
+            <div class="follow" *ngFor="let p of seguidos">
                 <app-user [user_id]="p.user_id" [nombre]="p.nombre" [apellido]="p.apellido" [profile]="p.profile"></app-user>
             </div>
         </mat-tab>

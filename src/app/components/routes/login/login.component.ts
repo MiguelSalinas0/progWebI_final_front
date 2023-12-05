@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -18,7 +19,7 @@ export class LoginComponent {
     password: [, [Validators.required, Validators.minLength(6)]],
   });
 
-  constructor(private fb: FormBuilder, private _userService: UserService, private router: Router, private _snackBar: MatSnackBar) { }
+  constructor(private fb: FormBuilder, private _userService: UserService, private router: Router, private _snackBar: MatSnackBar, private _authService: AuthService) { }
 
   ngOnInit(): void { }
 
@@ -42,7 +43,7 @@ export class LoginComponent {
     this._userService.login(email.value, password.value).subscribe({
       next: (data) => {
         if (data.success == true) {
-          localStorage.setItem('usuario', JSON.stringify(data.user.user_id))
+          this._authService.login(data.user.user_id)
           this.router.navigate(['/inicio'])
         } else {
           this.openSnackBar('Credenciales incorrectas', 'Aceptar');

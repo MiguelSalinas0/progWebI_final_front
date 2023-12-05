@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Follow, Seguido } from 'src/app/interfaces/follow';
 import { Autor, Post } from 'src/app/interfaces/postuser';
 import { PostUser } from 'src/app/interfaces/postuser';
+import { UpdateUser } from 'src/app/interfaces/updateuser';
 import { User } from 'src/app/interfaces/user';
 import { FollowService } from 'src/app/services/follow.service';
 import { UserService } from 'src/app/services/user.service';
@@ -22,6 +23,7 @@ export class ViewProfileComponent implements OnInit {
   user_id!: string;
 
   user!: User;
+
   seguidores: Seguido[] = [];
   seguidos: Seguido[] = [];
   allPost: Post[] = [];
@@ -32,7 +34,10 @@ export class ViewProfileComponent implements OnInit {
   bandera: boolean = false;
   result!: boolean;
 
-  constructor(private _route: ActivatedRoute, private _userService: UserService, private _followService: FollowService, private _snackBar: MatSnackBar) {
+  nombre!: string;
+  apellido!: string;
+
+  constructor(private _route: ActivatedRoute, private _userService: UserService, private _followService: FollowService, private _snackBar: MatSnackBar, private router: Router) {
     this.id = this._route.snapshot.paramMap.get('id');
   }
 
@@ -74,7 +79,6 @@ export class ViewProfileComponent implements OnInit {
     })
   }
 
-
   evalFoll() {
     this._followService.evalFollow(this.user_id, this.id!).subscribe({
       next: (data) => {
@@ -100,6 +104,8 @@ export class ViewProfileComponent implements OnInit {
     this._userService.getOneUser(id!).subscribe({
       next: (data: User) => {
         this.user = data
+        this.nombre = data.nombre
+        this.apellido = data.apellido
       },
       error: (err) => {
         console.log(err);
@@ -131,6 +137,7 @@ export class ViewProfileComponent implements OnInit {
         if (data.success == true) {
           this.allPost = data.posts
           this.autor = data.autor
+          console.log(data.posts)
         }
       },
       error: (err) => {
@@ -144,9 +151,12 @@ export class ViewProfileComponent implements OnInit {
 
   actualizarInfo() {
     this._userService.update(this.user.nombre, this.user.apellido, this.user.correo_electronico, this.user.biografia, this.user.user_id).subscribe({
-      next: (data) => {
-        this.openSnackBar('Datos actualizados correctamente', 'Aceptar');
-        this.edit = false
+      next: (data: UpdateUser) => {
+        if (data.success == true) {
+          this.openSnackBar('Datos actualizados correctamente', 'Aceptar');
+          this.edit = false
+          this.getOneUser(this.id)
+        }
       },
       error: (err) => {
         console.log(err);
@@ -156,6 +166,25 @@ export class ViewProfileComponent implements OnInit {
         console.log('complete');
       },
     })
+  }
+
+  onFileSelected(event: any) {
+    const img_name = this.nombre + this.apellido + this.id
+    const file: File = event.target.files[0];
+    this._userService.uploadImage(file, img_name.toLowerCase(), this.id!).subscribe({
+      next: (data: UpdateUser) => {
+        if (data.success == true) {
+          this.openSnackBar('Se actualizó la foto de perfil correctamente', 'Aceptar');
+        }
+      },
+      error: (err) => {
+        console.log(err);
+        this.openSnackBar('Error: ' + err.message, 'Aceptar');
+      },
+      complete: () => {
+        console.log('complete');
+      },
+    });
   }
 
 }

@@ -8,13 +8,14 @@ import { UserComponent } from './user/user.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
   declarations: [ProfileComponent, PostComponent, UserComponent],
-  imports: [CommonModule, RouterModule, MatMenuModule, MatIconModule, MatButtonModule, FormsModule],
+  imports: [CommonModule, RouterModule, MatMenuModule, MatIconModule, MatButtonModule, MatExpansionModule, FormsModule],
   exports: [ProfileComponent, PostComponent, UserComponent]
 })
 export class SharedModule { }

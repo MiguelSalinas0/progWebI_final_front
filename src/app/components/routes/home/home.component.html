@@ -16,7 +16,7 @@
         </div>
         <div *ngFor="let p of post.data">
             <app-post [contenido]="p.contenido" [autor]="p.autor" [fecha_publicacion]="p.fecha_publicacion"
-                [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios" [post_id]="p.post_id"></app-post>
+                [cantidad_likes]="p.cantidad_likes" [comentarios]="p.comentarios" [post_id]="p.post_id" [likedBy]="p.likedBy"></app-post>
         </div>
     </div>
     <div class="friend">
